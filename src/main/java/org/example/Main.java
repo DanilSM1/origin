@@ -2,7 +2,9 @@ package org.example;
 
 import java.util.Arrays;
 
-import static java.lang.Math.round;
+
+import static org.example.ControlGroup.parseControlGroup;
+import static org.example.ControlGroup.countConditions;
 import static org.example.ExperimentalGroups1Sem.countConditions;
 import static org.example.ExperimentalGroups1Sem.parseExperimentalGroups1Sem;
 import static org.example.ExperimentalGroups2Sem.countConditions;
@@ -256,12 +258,14 @@ public class Main {
         double[][] matrixOfChance6to7 = calculateChanceOfChangeCondition(transitionMatrix6to7);
         double[][] matrixOfChance7to8 = calculateChanceOfChangeCondition(transitionMatrix7to8);
 
-//        System.out.println("Матрица вероятности перехода 1-2 сем");
+        ControlGroup[] controlGroup = parseControlGroup("D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\controlGroup.json");
+        int [] countsOfControlGroupConditions = countConditions(controlGroup);
 
 
-//        for (int i = 0; i < 7; i++) {
-//            System.out.print(Arrays.toString(resultMatrix1to2[i]));
-//            System.out.println();}
+        System.out.println("Матрица вероятности перехода 1-2 сем");
+        for (int i = 0; i < 7; i++) {
+            System.out.print(Arrays.toString(matrixOfChance1to2[i]));
+            System.out.println();}
 
 //        System.out.println("Матрица количества переходов 1-2 семестр");
 //        for (int i = 0; i < transitionMatrix1to2.length; i++) {
