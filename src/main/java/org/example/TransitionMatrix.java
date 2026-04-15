@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Arrays;
+
 public class TransitionMatrix {
     private final int size = 7;
     private int[][] transitionCounts;
@@ -21,6 +23,9 @@ public class TransitionMatrix {
         }
 
         calculateProbabilities();
+    }
+    public TransitionMatrix(double[][] matrix){
+        this.transitionProbabilities = matrix;
     }
 
     private void calculateProbabilities() {
@@ -66,31 +71,58 @@ public class TransitionMatrix {
         return transitionProbabilities;
     }
 
-    public double[] predict(double[] currentDistribution) {
-        double[] nextDistribution = new double[size];
+    public void printTransitionCounts() {
+        System.out.print("      T1  T2  T3  T4  T5  T6  T7\n");
+        String[] states = {"T1", "T2", "T3", "T4", "T5", "T6", "T7"};
+        for (int i = 0; i < size; i++) {
+            System.out.printf("%s ", states[i]);
+            for (int j = 0; j < size; j++) {
+                System.out.printf("%3d ", transitionCounts[i][j]);
+            }
+            System.out.printf(" | сумма = %d\n", sumRow(i));
+        }
+    }
+    public double[][] buildPredictionMatrix(int[] currentCounts) {
+        double[][] predictionMatrix = new double[size][size];
+
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                nextDistribution[j] += currentDistribution[i] * transitionProbabilities[i][j];
+                // Количество студентов из i, которые перейдут в j
+                predictionMatrix[i][j] = transitionProbabilities[i][j] * currentCounts[i];
+                // Округляем для красоты
+                predictionMatrix[i][j] = Math.round(predictionMatrix[i][j] * 10000.0) / 10000.0;
             }
         }
-        // Округление
-        for (int i = 0; i < size; i++) {
-            nextDistribution[i] = Math.round(nextDistribution[i] * 10000.0) / 10000.0;
-        }
-        return nextDistribution;
+
+        return predictionMatrix;
     }
+    public double[][] buildPredictionMatrix(double[] currentDistribution) {
+        double[][] predictionMatrix = new double[size][size];
 
-    public double[] predictFromCounts(int[] currentCounts) {
-        double[] currentDistribution = new double[size];
-        int total = 0;
-        for (int count : currentCounts) total += count;
-
-        if (total > 0) {
-            for (int i = 0; i < size; i++) {
-                currentDistribution[i] = (double) currentCounts[i] / total;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                predictionMatrix[i][j] = transitionProbabilities[i][j] * currentDistribution[i];
+                predictionMatrix[i][j] = Math.round(predictionMatrix[i][j] * 10000.0) / 10000.0;
             }
         }
 
-        return predict(currentDistribution);
+        return predictionMatrix;
+    }
+    public double[] getPredictionVector(double[][] predictionMatrix) {
+        double[] result = new double[size];
+
+        for (int j = 0; j < size; j++) {          // по столбцам (будущие состояния)
+            for (int i = 0; i < size; i++) {      // по строкам (текущие состояния)
+                result[j] += predictionMatrix[i][j];
+            }
+            result[j] = Math.round(result[j] * 10000.0) / 10000.0;
+        }
+
+        return result;
+    }
+    public static void printTransitionMatrix(double[][] matrix){
+        for (int i = 0; i < 7; i++) {
+            System.out.println(Arrays.toString(matrix[i]));
+        }
     }
 }
