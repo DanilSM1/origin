@@ -12,8 +12,12 @@ public class ControlGroup {
     int ex1, ex2, ex3;
     String condition;
 
-    double avgBall() {
+    public double avgBall() {
         return (ex1 + ex2 + ex3) / 3.0;
+    }
+
+    public int[] getScores() {
+        return new int[0];
     }
 
     // Расчет состояния для каждого объекта
@@ -87,36 +91,5 @@ public class ControlGroup {
         return counts;
     }
 
-    public static ControlGroup[] parseControlGroup(String fileName) {
-        JSONParser parser = new JSONParser();
-        ControlGroup[] controlGroup = null;
-        try (FileReader reader = new FileReader(fileName)) {
-            JSONArray jsonArray = (JSONArray) parser.parse(reader);
-            controlGroup = new ControlGroup[jsonArray.size()];
-            for (int i = 0; i < jsonArray.size(); i++) {
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                Long ex1long, ex2long, ex3long;
-                ex1long = (Long) jsonObject.get("exam1");
-                ex2long = (Long) jsonObject.get("exam2");
-                ex3long = (Long) jsonObject.get("exam3");
 
-                int ex1, ex2, ex3;
-                ex1 = ex1long.intValue();
-                ex2 = ex2long.intValue();
-                ex3 = ex3long.intValue();
-                controlGroup[i] = new ControlGroup(ex1, ex2, ex3, null);
-//                System.out.println(controlGroup[i]);
-            }
-        } catch (IOException e) {
-            System.err.println("Ошибка при чтении файла " + fileName + ": " + e.getMessage());
-            e.printStackTrace();
-        } catch (ParseException e) {
-            System.err.println("Ошибка при парсинге JSON файла " + fileName + ": " + e.getMessage());
-            e.printStackTrace();
-        } catch (ClassCastException e) {
-            System.err.println("Ошибка приведения типов в файле " + fileName);
-            e.printStackTrace();
-        }
-        return controlGroup;
-    }
 }
