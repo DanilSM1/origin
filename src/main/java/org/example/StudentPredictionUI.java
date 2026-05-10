@@ -14,14 +14,7 @@ public class StudentPredictionUI extends JFrame {
 
     // Данные для работы
     private ControlGroups[] controlGroup;
-    private ExpGroup1Sem[] group1Sem;
-    private ExpGroup2Sem[] group2Sem;
-    private ExpGroup3to7Sem[] group3Sem;
-    private ExpGroup4Sem[] group4Sem;
-    private ExpGroup3to7Sem[] group5Sem;
-    private ExpGroup3to7Sem[] group6Sem;
-    private ExpGroup3to7Sem[] group7Sem;
-    private ExpGroup8Sem[] group8Sem;
+    private ExpGroups[] group1Sem, group2Sem, group3Sem, group4Sem, group5Sem, group6Sem, group7Sem, group8Sem;
 
     // Матрицы переходов
     private TransitionMatrix matrix1to2, matrix2to3, matrix3to4, matrix4to5, matrix5to6, matrix6to7, matrix7to8;
@@ -426,49 +419,49 @@ public class StudentPredictionUI extends JFrame {
                             logMessage("Загружено " + controlGroup.length + " записей контрольной группы");
                             break;
                         case "1Sem":
-                            group1Sem = ExpGroup1Sem.parseExpGroup1Sem(filePath);
+                            group1Sem = ExpGroups.parseExpGroup(filePath);
                             group1SemLabel.setText(new File(filePath).getName());
                             group1SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group1Sem.length + " записей 1 семестра");
                             break;
                         case "2Sem":
-                            group2Sem = ExpGroup2Sem.parseExpGroup2Sem(filePath);
+                            group2Sem = ExpGroups.parseExpGroup(filePath);
                             group2SemLabel.setText(new File(filePath).getName());
                             group2SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group2Sem.length + " записей 2 семестра");
                             break;
                         case "3Sem":
-                            group3Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(filePath);
+                            group3Sem = ExpGroups.parseExpGroup(filePath);
                             group3SemLabel.setText(new File(filePath).getName());
                             group3SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group3Sem.length + " записей 3 семестра");
                             break;
                         case "4Sem":
-                            group4Sem = ExpGroup4Sem.parseExpGroup4Sem(filePath);
+                            group4Sem = ExpGroups.parseExpGroup(filePath);
                             group4SemLabel.setText(new File(filePath).getName());
                             group4SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group4Sem.length + " записей 4 семестра");
                             break;
                         case "5Sem":
-                            group5Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(filePath);
+                            group5Sem = ExpGroups.parseExpGroup(filePath);
                             group5SemLabel.setText(new File(filePath).getName());
                             group5SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group5Sem.length + " записей 5 семестра");
                             break;
                         case "6Sem":
-                            group6Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(filePath);
+                            group6Sem = ExpGroups.parseExpGroup(filePath);
                             group6SemLabel.setText(new File(filePath).getName());
                             group6SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group6Sem.length + " записей 6 семестра");
                             break;
                         case "7Sem":
-                            group7Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(filePath);
+                            group7Sem = ExpGroups.parseExpGroup(filePath);
                             group7SemLabel.setText(new File(filePath).getName());
                             group7SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group7Sem.length + " записей 7 семестра");
                             break;
                         case "8Sem":
-                            group8Sem = ExpGroup8Sem.parseExpGroup8Sem(filePath);
+                            group8Sem = ExpGroups.parseExpGroup(filePath);
                             group8SemLabel.setText(new File(filePath).getName());
                             group8SemLabel.setForeground(Color.GREEN);
                             logMessage("Загружено " + group8Sem.length + " записей 8 семестра");
@@ -1067,7 +1060,7 @@ public class StudentPredictionUI extends JFrame {
                         "- Автоматический расчет матриц переходов\n" +
                         "- Прогнозирование на 8 семестров\n" +
                         "- Визуализация результатов\n\n" +
-                        "© 2024",
+                        "© 2026",
                 "О программе",
                 JOptionPane.INFORMATION_MESSAGE);
     }
@@ -1081,12 +1074,7 @@ public class StudentPredictionUI extends JFrame {
                         "   - Или используйте 'Загрузить все файлы из последней директории'\n" +
                         "   - Поддерживаются только JSON файлы\n\n" +
                         "2. ФОРМАТ JSON ФАЙЛОВ:\n" +
-                        "   - Контрольная группа: [{\"exam1\":85,\"exam2\":90,\"exam3\":78}, ...]\n" +
-                        "   - 1 семестр: [{\"exam1\":85,\"exam2\":90}, ...]\n" +
-                        "   - 2 семестр: [{\"exam1\":85,\"exam2\":90,\"exam3\":78,\"exam4\":92}, ...]\n" +
-                        "   - 3,5-7 семестры: [{\"exam1\":85,\"exam2\":90,\"exam3\":78,\"exam4\":92,\"exam5\":88}, ...]\n" +
-                        "   - 4 семестр: [{\"exam1\":85,\"exam2\":90,\"exam3\":78,\"exam4\":92,\"exam5\":88,\"exam6\":84}, ...]\n" +
-                        "   - 8 семестр: [{\"exam1\":85,\"exam2\":90,\"exam3\":78}, ...]\n\n" +
+                        "   - exam1: x, exam2: y, ... examN:j\n\n" +
                         "3. РАСЧЕТ:\n" +
                         "   - После загрузки всех файлов кнопка 'Рассчитать' станет активной\n" +
                         "   - Нажмите ее для построения матриц переходов и прогнозов\n\n" +
@@ -1096,8 +1084,8 @@ public class StudentPredictionUI extends JFrame {
                         "   - 'Итоговая таблица' - сводная таблица всех прогнозов\n" +
                         "   - 'Данные студентов' - просмотр исходных данных\n\n" +
                         "5. СОСТОЯНИЯ (T1-T7):\n" +
-                        "   T1: 4.5-5.0, T2: 4.0-4.5, T3: 3.5-4.0, T4: 3.0-3.5,\n" +
-                        "   T5: 2.5-3.0, T6: 1.5-2.5, T7: <1.5"
+                        "\tT1: 4.5-5.0, \n\tT2: 4.0-4.5, \n\tT3: 3.5-4.0, \n\tT4: 3.0-3.5,\n" +
+                        "\tT5: 2.5-3.0, \n\tT6: 1.5-2.5, \n\tT7: <1.5"
         );
         instructions.setEditable(false);
         instructions.setFont(new Font("Monospaced", Font.PLAIN, 12));
