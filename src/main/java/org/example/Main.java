@@ -7,21 +7,21 @@ public class Main {
         // Загрузка данных
         ControlGroups[] controlGroup = ControlGroups.parseControlGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\controlGroup.json");
-        ExpGroup1Sem[] group1Sem = ExpGroup1Sem.parseExpGroup1Sem(
+        ExpGroups[] group1Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\1Sem.json");
-        ExpGroup2Sem[] group2Sem = ExpGroup2Sem.parseExpGroup2Sem(
+        ExpGroups[] group2Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\2Sem.json");
-        ExpGroup3to7Sem[] group3Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(
+        ExpGroups[] group3Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\3Sem.json");
-        ExpGroup4Sem[] group4Sem = ExpGroup4Sem.parseExpGroup4Sem(
+        ExpGroups[] group4Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\4Sem.json");
-        ExpGroup3to7Sem[] group5Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(
+        ExpGroups[] group5Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\5Sem.json");
-        ExpGroup3to7Sem[] group6Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(
+        ExpGroups[] group6Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\6Sem.json");
-        ExpGroup3to7Sem[] group7Sem = ExpGroup3to7Sem.parseExpGroup3to7Sem(
+        ExpGroups[] group7Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\7Sem.json");
-        ExpGroup8Sem[] group8Sem = ExpGroup8Sem.parseExpGroup8Sem(
+        ExpGroups[] group8Sem = ExpGroups.parseExpGroup(
                 "D:\\Учеба\\Мага\\PredictionTest2\\src\\main\\resources\\8Sem.json");
 
         int[] controlCounts = BaseStudentGroup.countConditions(controlGroup);
